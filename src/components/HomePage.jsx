@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { logout } from "../services/authService";
 import { FaUserCircle } from "react-icons/fa";
+import { logout } from "../services/authService";
 import "./style.css";
-
-export async function login(email, password) {
-  return fetch("/api/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
-  });
-}
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -21,7 +13,6 @@ const HomePage = () => {
     const handleStorageChange = () => {
       setIsAuthenticated(!!localStorage.getItem("token"));
     };
-
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
@@ -94,43 +85,9 @@ const HomePage = () => {
       </div>
 
       {/* Footer */}
-      <div className="footer">@ copyright E-Commerce</div>
+      <div className="footer">&copy; E-Commerce</div>
     </div>
   );
 };
 
 export default HomePage;
-@PostMapping("/login")
-public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-    // Find user by email instead of username
-    User user = userRepository.findByEmail(loginRequest.getEmail());
-    if (user == null || !passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-    }
-    // ...existing code for generating token...
-}
-
-public class LoginRequest {
-    private String email;
-    private String password;
-    // getters and setters
-}
-
-Optional<User> findByEmail(String email);
-
-<input
-  type="email"
-  name="email"
-  value={form.email}
-  onChange={handleChange}
-  placeholder="Email"
-  required
-/>
-<input
-  type="password"
-  name="password"
-  value={form.password}
-  onChange={handleChange}
-  placeholder="Password"
-  required
-/>
